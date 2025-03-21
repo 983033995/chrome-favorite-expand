@@ -1,0 +1,254 @@
+/**
+ * 侧边栏组件样式
+ */
+
+.bookmark-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background-color: var(--bg-white);
+  box-shadow: var(--shadow-3);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  
+  &.position-left {
+    left: 0;
+    right: auto;
+  }
+  
+  &.hidden {
+    transform: translateX(100%);
+    
+    &.position-left {
+      transform: translateX(-100%);
+    }
+  }
+  
+  &__header {
+    height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    
+    &-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    &-close {
+      cursor: pointer;
+      color: var(--text-secondary);
+      
+      &:hover {
+        color: var(--text-primary);
+      }
+    }
+  }
+  
+  &__search {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  &__filter {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border-color);
+    
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    &-item {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      white-space: nowrap;
+      cursor: pointer;
+      
+      &:hover:not(.active) {
+        background-color: var(--bg-gray);
+      }
+      
+      &.active {
+        background-color: var(--primary-bg);
+        color: var(--primary-color);
+      }
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+  
+  &__footer {
+    height: 48px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-color);
+    
+    &-actions {
+      display: flex;
+      gap: 16px;
+    }
+    
+    &-action {
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      
+      &:hover {
+        color: var(--primary-color);
+      }
+      
+      .icon {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+// 悬浮触发按钮
+.sidebar-toggle {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9998;
+  width: 24px;
+  height: 48px;
+  background-color: var(--primary-color);
+  border-radius: 4px 0 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+  color: white;
+  transition: var(--transition-normal);
+  
+  &.position-right {
+    right: 0;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  &.position-left {
+    left: 0;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  &:hover {
+    background-color: var(--primary-hover);
+    box-shadow: var(--shadow-2);
+  }
+}
+
+// 书签树形结构
+.bookmark-tree {
+  &__node {
+    margin-bottom: 6px;
+    
+    &-inner {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      
+      &:hover {
+        background-color: var(--bg-gray);
+      }
+      
+      &.active {
+        background-color: var(--primary-bg);
+        color: var(--primary-color);
+      }
+    }
+    
+    &-icon {
+      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+    }
+    
+    &-expand {
+      margin-right: 4px;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(0deg);
+      transition: transform 0.2s;
+      
+      &.expanded {
+        transform: rotate(90deg);
+      }
+    }
+    
+    &-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    
+    &-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    &-count {
+      margin-left: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+  }
+  
+  &__children {
+    padding-left: 16px;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+}
+
+// 暗色主题调整
+body[theme-mode="dark"] {
+  .bookmark-sidebar {
+    background-color: var(--bg-white);
+    
+    &__header {
+      border-bottom-color: var(--border-color);
+    }
+    
+    &__filter {
+      border-bottom-color: var(--border-color);
+    }
+    
+    &__footer {
+      border-top-color: var(--border-color);
+    }
+  }
+  
+  .bookmark-tree__node-inner:hover {
+    background-color: var(--bg-gray);
+  }
+}
