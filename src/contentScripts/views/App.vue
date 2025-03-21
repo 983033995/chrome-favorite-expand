@@ -1,8 +1,22 @@
+<!--
+ * @FilePath: /chrome-favorite-expand/src/contentScripts/views/App.vue
+ * @Description:
+-->
 <script setup lang="ts">
+import browser from 'webextension-polyfill'
 import { useToggle } from '@vueuse/core'
 import 'uno.css'
 
 const [show, toggle] = useToggle(false)
+const { width, height } = useWindowSize()
+
+watch(() => [width.value, height.value], () => {
+  console.log('-----width, height----', width, height)
+  browser.runtime.sendMessage({
+    width: width.value,
+    height: height.value,
+  })
+}, { deep: true, immediate: true })
 </script>
 
 <template>
@@ -15,7 +29,7 @@ const [show, toggle] = useToggle(false)
       :class="show ? 'opacity-100' : 'opacity-0'"
     >
       <h1 class="text-lg">
-        Vitesse WebExt
+        插入页面内容- {{ width }} -- {{ height }}
       </h1>
       <SharedSubtitle />
     </div>

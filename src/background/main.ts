@@ -1,3 +1,7 @@
+/*
+ * @FilePath: /chrome-favorite-expand/src/background/main.ts
+ * @Description:
+ */
 import { onMessage, sendMessage } from 'webext-bridge/background'
 import type { Tabs } from 'webextension-polyfill'
 
@@ -10,14 +14,13 @@ if (import.meta.hot) {
 }
 
 browser.runtime.onInstalled.addListener((): void => {
-  // eslint-disable-next-line no-console
   console.log('Extension installed')
 })
 
 let previousTabId = 0
 
-// communication example: send previous tab title from background page
-// see shim.d.ts for type declaration
+// 通信示例：从后台页面发送上一个选项卡标题
+// 有关类型声明，请参见shim.dts
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
   if (!previousTabId) {
     previousTabId = tabId
@@ -34,7 +37,6 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
     return
   }
 
-  // eslint-disable-next-line no-console
   console.log('previous tab', tab)
   sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
 })
@@ -50,5 +52,35 @@ onMessage('get-current-tab', async () => {
     return {
       title: undefined,
     }
+  }
+})
+// browser.tabs.query({ active: true, currentWindow: true }).then((tabs: Expand<Tabs.Tab>[]) => {
+//   browser.tabs.executeScript(tabs[0].id, {
+//     code: 'var width = window.innerWidth; var height = window.innerHeight;',
+//   }, (res) => {
+//     console.log('-----res', res)
+//   })
+//   browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//     if (request.cmd === 'get_size') {
+//       sendResponse({
+//         width,
+//         height,
+//       })
+//     }
+//   })
+// })
+// 接收内容脚本发送的宽高消息
+browser.runtime.onMessage.addListener((message) => {
+  console.log('-----message', message)
+  if (message.width && message.height) {
+    const width = message.width
+    const height = message.height
+    console.log(`宽:${width}`, `高:${height}`)
+    browser.storage.local.set({
+      commonData: {
+        width,
+        height,
+      },
+    })
   }
 })
