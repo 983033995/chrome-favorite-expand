@@ -1,9 +1,9 @@
 {
-  "name": "vitesse-webext",
-  "displayName": "Vitesse WebExt",
-  "version": "0.0.1",
+  "name": "bookmark-ai-assistant",
+  "displayName": "智能书签助手",
+  "version": "0.1.0",
   "private": true,
-  "description": "[description]",
+  "description": "一款跨浏览器的智能化书签管理插件，以侧边栏形式提供便捷访问、自动分类和个性化管理书签能力",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
@@ -67,9 +67,16 @@
     "vitest": "^0.31.0",
     "vue": "^3.2.47",
     "vue-demi": "^0.14.0",
+    "pinia": "^2.1.7",
     "web-ext": "^7.6.2",
     "webext-bridge": "^6.0.1",
     "webextension-polyfill": "^0.10.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "dayjs": "^1.11.10",
+    "lodash-es": "^4.17.21",
+    "uuid": "^9.0.1"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
