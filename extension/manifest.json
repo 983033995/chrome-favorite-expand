@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "智能书签助手",
+  "version": "0.1.0",
+  "description": "一款跨浏览器的智能化书签管理插件，以侧边栏形式提供便捷访问、自动分类和个性化管理书签能力",
+  "action": {
+    "default_icon": "./assets/icon-512.png",
+    "default_popup": "./dist/popup/index.html"
+  },
+  "options_ui": {
+    "page": "./dist/options/index.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "./dist/background/index.mjs"
+  },
+  "icons": {
+    "16": "./assets/icon-16.png",
+    "48": "./assets/icon-48.png",
+    "128": "./assets/icon-128.png",
+    "512": "./assets/icon-512.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "bookmarks",
+    "unlimitedStorage",
+    "favicon"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "dist/contentScripts/index.global.js"
+      ],
+      "css": [
+        "dist/contentScripts/style.css"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/icon-16.png",
+        "assets/icon-48.png", 
+        "assets/icon-128.png",
+        "assets/icon-512.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
